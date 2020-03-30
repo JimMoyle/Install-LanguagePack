@@ -51,9 +51,9 @@ function Install-LanguagePack {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
 
         if (-not (Test-Path $LPtoFODFile )) {
-                Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
-                exit
-            }
+            Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
+            exit
+        }
         $codeMapping = Import-Csv $LPtoFODFile
 
         foreach ($code in $LanguageCode) {
@@ -76,32 +76,23 @@ function Install-LanguagePack {
                 break
             }
             
+            $fileList = $codeMapping | Where-Object { $_.'Target Lang' -eq $code }
+
             #From the Features On Demand iso
-            $fileList = @(
-                "$PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-Basic-$code-Package~31bf3856ad364e35~amd64~~.cab",
-                "$PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-Handwriting-$code-Package~31bf3856ad364e35~amd64~~.cab",
-                "$PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-OCR-$code-Package~31bf3856ad364e35~amd64~~.cab",
-                "$PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-Speech-$code-Package~31bf3856ad364e35~amd64~~.cab",
-                "$PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-TextToSpeech-$code-Package~31bf3856ad364e35~amd64~~.cab",
-                "$PathToFeaturesOnDemand\Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~$code~.cab"
-            )
 
 
-
-            foreach ($file in $fileList) {
-                if (-not (Test-Path $file)) {
-                    Write-Error "Could not validate that $file file exists in this location"
-                    break
-                }
-                try {
-                    Add-WindowsPackage -Online -PackagePath $file -ErrorAction Stop
-                }
-                catch {
-                    $error[0]
-                    break
-                }
+            if ($null -eq $filePath) {
+                Write-Error "Could not find $filePath"
             }
 
+            try {
+                Add-WindowsPackage -Online -PackagePath $filePath -ErrorAction Stop
+            }
+            catch {
+                $error[0]
+                break
+            }
+        
             try {
                 $LanguageList = Get-WinUserLanguageList -ErrorAction Stop
                 $LanguageList.Add("$code") 
