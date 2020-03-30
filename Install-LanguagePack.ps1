@@ -80,17 +80,21 @@ function Install-LanguagePack {
 
             #From the Features On Demand iso
 
+            foreach ($file in $fileList.'Cab Name') {
+                $filePath = Get-ChildItem (Join-Path $PathToFeaturesOnDemand $file.replace('.cab', '*.cab'))
 
-            if ($null -eq $filePath) {
-                Write-Error "Could not find $filePath"
-            }
+                if ($null -eq $filePath) {
+                    Write-Error "Could not find $filePath"
+                    break
+                }
 
-            try {
-                Add-WindowsPackage -Online -PackagePath $filePath -ErrorAction Stop
-            }
-            catch {
-                $error[0]
-                break
+                try {
+                    Add-WindowsPackage -Online -PackagePath $filePath -ErrorAction Stop
+                }
+                catch {
+                    $error[0]
+                    break
+                }
             }
         
             try {
