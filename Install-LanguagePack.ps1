@@ -43,7 +43,7 @@ function Install-LanguagePack {
     } # Begin
     PROCESS {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
-        $codeMapping = 
+        $codeMapping = Import-Csv "Windows-10-1809-FOD-to-LP-Mapping-Table.csv"
 
         foreach ($code in $LanguageCode) {
             $contentPath = Join-Path $PathToLocalExperience (Join-Path 'LocalExperiencePack' $code)
@@ -93,7 +93,6 @@ function Install-LanguagePack {
                     break
                 }
             }
-
 
             try {
                 $LanguageList = Get-WinUserLanguageList -ErrorAction Stop
