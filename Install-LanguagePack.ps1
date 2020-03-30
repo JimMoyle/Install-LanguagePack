@@ -28,6 +28,12 @@ function Install-LanguagePack {
             ValuefromPipelineByPropertyName = $true,
             ValuefromPipeline = $true
         )]
+        [System.String]$LPtoFODFile = "Windows-10-1809-FOD-to-LP-Mapping-Table.csv",
+
+        [Parameter(
+            ValuefromPipelineByPropertyName = $true,
+            ValuefromPipeline = $true
+        )]
         [System.String]$LogPath
     )
 
@@ -43,7 +49,12 @@ function Install-LanguagePack {
     } # Begin
     PROCESS {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
-        $codeMapping = Import-Csv "Windows-10-1809-FOD-to-LP-Mapping-Table.csv"
+
+        if (-not (Test-Path $LPtoFODFile )) {
+                Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
+                exit
+            }
+        $codeMapping = Import-Csv $LPtoFODFile
 
         foreach ($code in $LanguageCode) {
             $contentPath = Join-Path $PathToLocalExperience (Join-Path 'LocalExperiencePack' $code)
@@ -75,10 +86,7 @@ function Install-LanguagePack {
                 "$PathToFeaturesOnDemand\Microsoft-Windows-NetFx3-OnDemand-Package~31bf3856ad364e35~amd64~$code~.cab"
             )
 
-            if ($fontcheck) {
-                #Add font file to list
-                ## $PathToFeaturesOnDemand\Microsoft-Windows-LanguageFeatures-Fonts-Jpan-Package~31bf3856ad364e35~amd64~~.cab
-            }
+
 
             foreach ($file in $fileList) {
                 if (-not (Test-Path $file)) {
