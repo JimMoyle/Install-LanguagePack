@@ -51,6 +51,14 @@ function Install-LanguagePack {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
 
         if (-not (Test-Path $LPtoFODFile )) {
+
+            #Check for Excel file
+            $excelName = $LPtoFODFile.Replace('.csv','.xlsx')
+            if (Test-Path $excelName) {
+                Write-Error "Please open $excelName and save as a csv"
+                break
+            }
+
             Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
             exit
         }
