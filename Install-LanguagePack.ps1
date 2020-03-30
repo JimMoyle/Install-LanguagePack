@@ -49,14 +49,14 @@ function Install-LanguagePack {
     } # Begin
     PROCESS {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
-
+        #Check for code mapping file
         if (-not (Test-Path $LPtoFODFile )) {
 
             #Check for Excel file
-            $excelName = $LPtoFODFile.Replace('.csv','.xlsx')
+            $excelName = $LPtoFODFile.Replace('.csv','*.xlsx')
             if (Test-Path $excelName) {
                 Write-Error "Please open $excelName and save as a csv"
-                break
+                exit
             }
 
             Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
@@ -77,7 +77,7 @@ function Install-LanguagePack {
                 break
             }
             try {
-                Add-AppProvisionedPackage -Online -PackagePath $appxPath -LicensePath "$contentPath\License.xml" -ErrorAction Stop -WarningAction SilentlyContinue #ToDo enable logging  -LogPath
+                Add-AppProvisionedPackage -Online -PackagePath $appxPath -LicensePath "$contentPath\License.xml" -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null #ToDo enable logging  -LogPath 
             }
             catch {
                 $error[0]
@@ -97,7 +97,7 @@ function Install-LanguagePack {
                 }
 
                 try {
-                    Add-WindowsPackage -Online -PackagePath $filePath.FullName -NoRestart -ErrorAction Stop | Out-Null
+                    Add-WindowsPackage -Online -PackagePath $filePath.FullName -NoRestart -ErrorAction Stop -WarningAction SilentlyContinue| Out-Null
                 }
                 catch {
                     $error[0]
