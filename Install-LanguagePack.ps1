@@ -46,14 +46,12 @@ function Install-LanguagePack {
         ##Disable Language Pack Cleanup## (do not re-enable)
         Disable-ScheduledTask -TaskPath "\Microsoft\Windows\AppxDeploymentClient\" -TaskName "Pre-staged app cleanup" | Out-Null
 
-    } # Begin
-    PROCESS {
         #Code mapping from https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
         #Check for code mapping file
         if (-not (Test-Path $LPtoFODFile )) {
 
             #Check for Excel file
-            $excelName = $LPtoFODFile.Replace('.csv','*.xlsx')
+            $excelName = $LPtoFODFile.Replace('.csv', '*.xlsx')
             if (Test-Path $excelName) {
                 Write-Error "Please open $excelName and save as a csv"
                 exit
@@ -63,6 +61,9 @@ function Install-LanguagePack {
             exit
         }
         $codeMapping = Import-Csv $LPtoFODFile
+
+    } # Begin
+    PROCESS {
 
         foreach ($code in $LanguageCode) {
             $contentPath = Join-Path $PathToLocalExperience (Join-Path 'LocalExperiencePack' $code)
@@ -97,7 +98,7 @@ function Install-LanguagePack {
                 }
 
                 try {
-                    Add-WindowsPackage -Online -PackagePath $filePath.FullName -NoRestart -ErrorAction Stop -WarningAction SilentlyContinue| Out-Null
+                    Add-WindowsPackage -Online -PackagePath $filePath.FullName -NoRestart -ErrorAction Stop -WarningAction SilentlyContinue | Out-Null
                 }
                 catch {
                     $error[0]
