@@ -69,7 +69,7 @@ function Install-LanguagePack {
                 break
             }
             try {
-                Add-AppProvisionedPackage -Online -PackagePath $appxPath -LicensePath "$contentPath\License.xml" -ErrorAction Stop #ToDo enable logging  -LogPath
+                Add-AppProvisionedPackage -Online -PackagePath $appxPath -LicensePath "$contentPath\License.xml" -ErrorAction Stop -WarningAction SilentlyContinue #ToDo enable logging  -LogPath
             }
             catch {
                 $error[0]
@@ -89,7 +89,7 @@ function Install-LanguagePack {
                 }
 
                 try {
-                    Add-WindowsPackage -Online -PackagePath $filePath -ErrorAction Stop
+                    Add-WindowsPackage -Online -PackagePath $filePath.FullName -NoRestart -ErrorAction Stop | Out-Null
                 }
                 catch {
                     $error[0]
