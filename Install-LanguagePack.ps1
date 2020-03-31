@@ -30,7 +30,8 @@ function Install-LanguagePack {
     This is the path to the root of the en_windows_10_features_on_demand_part_1 iso, for instance E:\ if the iso is mounted.  Any SMB location should work
 
     .PARAMETER LPtoFODFile
-    This is the path to the csv version of the excel file from 'Language and region Features on Demand' documentation.  You can find it here: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
+    This is the path to the csv version of the excel file from 'Language and region Features on Demand' documentation.  You can find it here: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod.
+    The default value for this parameter is Windows-10-1809-FOD-to-LP-Mapping-Table.csv
 
     .PARAMETER LogPath
     Not yet implemented
