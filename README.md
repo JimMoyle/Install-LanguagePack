@@ -2,7 +2,7 @@
 
 This PowerShell function is designed to automate the installation of any of any* language with the attendant features on demand.  Not all languages have all features available to them, but this function will install all available.  This supports Windows 10 single and multisession.
 
-You will need 3 external resources for this scriopt to run:
+You will need 3 external resources for this script to run:
 
 The contents of two iso files 
 mu_windows_10_version_1903_local_experience_packs_lxps_for_lip_languages_released_oct_2019_x86_arm64_x64_dvd_2f05e51a.iso
