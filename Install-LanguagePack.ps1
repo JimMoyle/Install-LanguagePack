@@ -37,13 +37,16 @@ function Install-LanguagePack {
     Not yet implemented
 
     .EXAMPLE
-    Install-LanguagePack -LanguageCode en-gb -PathToLocalExperience E:\ -PathToFeaturesOnDemand D:\
+    Install-LanguagePack -LanguageCode en-gb -PathToLocalExperience D:\ -PathToFeaturesOnDemand E:\
 
     .EXAMPLE 
     Install-LanguagePack -LanguageCode 'fi-fi', 'fil-ph', 'fr-ca' -PathToLocalExperience \\server\share -PathToFeaturesOnDemand \\server\share2
 
     .EXAMPLE
     Install-LanguagePack -LanguageCode th-th -PathToLocalExperience \\server\share -PathToFeaturesOnDemand \\server\share2 -LPtoFODFile \\server\share3\mycsv.csv
+
+    .EXAMPLE
+    en-gb | Install-LanguagePack -PathToLocalExperience E:\ -PathToFeaturesOnDemand D:\
 
     .LINK
     https://github.com/JimMoyle/Install-LanguagePack
