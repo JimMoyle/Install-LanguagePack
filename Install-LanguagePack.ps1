@@ -74,12 +74,12 @@ function Install-LanguagePack {
         [System.String]$PathToFeaturesOnDemand,
 
         [Parameter(
-            ValuefromPipelineByPropertyName = $true,
+            ValuefromPipelineByPropertyName = $true
         )]
         [System.String]$LPtoFODFile = "Windows-10-1809-FOD-to-LP-Mapping-Table.csv",
 
         [Parameter(
-            ValuefromPipelineByPropertyName = $true,
+            ValuefromPipelineByPropertyName = $true
         )]
         [System.String]$LogPath
     )
