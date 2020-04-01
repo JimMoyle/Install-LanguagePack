@@ -42,6 +42,9 @@ function Install-LanguagePack {
     .EXAMPLE 
     Install-LanguagePack -LanguageCode 'fi-fi', 'fil-ph', 'fr-ca' -PathToLocalExperience \\server\share -PathToFeaturesOnDemand \\server\share2
 
+    .EXAMPLE
+    Install-LanguagePack -LanguageCode th-th -PathToLocalExperience \\server\share -PathToFeaturesOnDemand \\server\share2 -LPtoFODFile \\server\share3\mycsv.csv
+
     .LINK
     https://github.com/JimMoyle/Install-LanguagePack
 
@@ -60,27 +63,23 @@ function Install-LanguagePack {
 
         [Parameter(
             ValuefromPipelineByPropertyName = $true,
-            ValuefromPipeline = $true,
             Mandatory = $true
         )]
         [System.String]$PathToLocalExperience,
 
         [Parameter(
             ValuefromPipelineByPropertyName = $true,
-            ValuefromPipeline = $true,
             Mandatory = $true
         )]
         [System.String]$PathToFeaturesOnDemand,
 
         [Parameter(
             ValuefromPipelineByPropertyName = $true,
-            ValuefromPipeline = $true
         )]
         [System.String]$LPtoFODFile = "Windows-10-1809-FOD-to-LP-Mapping-Table.csv",
 
         [Parameter(
             ValuefromPipelineByPropertyName = $true,
-            ValuefromPipeline = $true
         )]
         [System.String]$LogPath
     )
@@ -105,7 +104,7 @@ function Install-LanguagePack {
                 exit
             }
 
-            Write-Error "Could not validate that $LPtoFODFile  file exists in this location"
+            Write-Error "Could not validate that $LPtoFODFile file exists in this location"
             exit
         }
         $codeMapping = Import-Csv $LPtoFODFile
@@ -136,6 +135,11 @@ function Install-LanguagePack {
             $fileList = $codeMapping | Where-Object { $_.'Target Lang' -eq $code }
 
             #From the Features On Demand iso
+
+            if (($fileList | Measure-Object).Count -eq 0){
+                Write-Verbose "Installed $code"
+                break
+            }
 
             foreach ($file in $fileList.'Cab Name') {
                 $filePath = Get-ChildItem (Join-Path $PathToFeaturesOnDemand $file.replace('.cab', '*.cab'))
