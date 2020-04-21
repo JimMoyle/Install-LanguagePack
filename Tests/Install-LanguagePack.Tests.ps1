@@ -6,12 +6,14 @@ Describe "Install-LanguagePack" {
 
     Context "Input" {
 
-        Mock -CommandName 'Disable-ScheduledTask' -MockWith {$null}
-        Mock -CommandName 'Test-Path' -MockWith {$true}
-        Mock -CommandName 'Add-AppProvisionedPackage' -MockWith {$null}
-        Mock -CommandName 'Import-Csv' -MockWith {[PSCustomObject]@{
+        Mock -CommandName 'Disable-ScheduledTask' -MockWith {$null} -Verifiable
+        Mock -CommandName 'Test-Path' -MockWith { $true } -Verifiable
+        Mock -CommandName 'Add-AppProvisionedPackage' -MockWith { $null } -Verifiable
+        Mock -CommandName 'Import-Csv' -MockWith {
+            [PSCustomObject]@{
             'Target Lang' = 'made-up'
-        }}
+            } 
+        } -Verifiable
 
         It "Takes input by parameter" {
             $out = Install-LanguagePack -LanguageCode 'en-gb' -PathToLocalExperience 'D:\' -PathToFeaturesOnDemand 'E:\' -LPtoFODFile '\\server\share3\mycsv.csv'
@@ -35,6 +37,9 @@ Describe "Install-LanguagePack" {
             $out | Should -BeNull
         }
 
+        It 'Should run all the mocks' {
+            Assert-VerifiableMock
+        }
 
     }
 

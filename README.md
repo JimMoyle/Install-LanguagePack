@@ -4,12 +4,12 @@ This PowerShell function is designed to automate the installation of any of any*
 
 You will need 3 external resources for this script to run:
 
-The contents of two iso files 
+The contents of two iso files
 
-  mu_windows_10_version_1903_local_experience_packs_lxps_for_lip_languages_released_oct_2019_x86_arm64_x64_dvd_2f05e51a.iso
-  en_windows_10_features_on_demand_part_1_version_1903_x64_dvd_1076e85a.iso
+    mu_windows_10_version_1903_local_experience_packs_lxps_for_lip_languages_released_oct_2019_x86_arm64_x64_dvd_2f05e51a.iso
+    en_windows_10_features_on_demand_part_1_version_1903_x64_dvd_1076e85a.iso
 
-The excel file from 'Language and region Features on Demand' documentation **saved as a csv file**.  
+The excel file from 'Language and region Features on Demand' documentation **saved as a csv file**.
 
 This is needed as it shows what features are available for each language.  I'd prefer an API or the ability to download a CSV, but I guess we work with what we've got so you've got to download the xlsx file and save it as a csv.  The current file is included 31-Mar-2020
 https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/features-on-demand-language-fod
